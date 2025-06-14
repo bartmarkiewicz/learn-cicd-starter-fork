@@ -19,7 +19,7 @@ func TestGetAPIKey_success(t *testing.T) {
 		"json header auth":                  {input: http.Header{"Authorization": {"Random", "Something"}}, want: "", expectErr: false},
 		"Empty header":                      {input: http.Header{"Content-Type": {}}, want: "", expectErr: true, err: authErr},
 		"Authorization header wrong format": {input: http.Header{"Authorization": {"SingleVal"}}, want: "", expectErr: true, err: errors.New("malformed authorization header")},
-		"Authorization header right format": {input: http.Header{"Authorization": {"ApiKey THEKEY"}}, want: "THEKEY", expectErr: false, err: errors.New("malformed authorization header")},
+		"Authorization header right format": {input: http.Header{"Authorization": {"ApiKey THsEKEY"}}, want: "THEKEY", expectErr: false, err: errors.New("malformed authorization header")},
 	}
 
 	for name, tc := range tests {
