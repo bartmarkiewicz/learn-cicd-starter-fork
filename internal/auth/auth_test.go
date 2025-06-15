@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-var authErr = errors.New("no authorization header included")
+var errAuth = errors.New("no authorization header included")
 
 func TestGetAPIKey_success(t *testing.T) {
 	tests := map[string]struct {
@@ -15,9 +15,9 @@ func TestGetAPIKey_success(t *testing.T) {
 		expectErr bool
 		err       error
 	}{
-		"no header":                         {input: http.Header{}, want: "", expectErr: true, err: authErr},
+		"no header":                         {input: http.Header{}, want: "", expectErr: true, err: errAuth},
 		"json header auth":                  {input: http.Header{"Authorization": {"Random", "Something"}}, want: "", expectErr: false},
-		"Empty header":                      {input: http.Header{"Content-Type": {}}, want: "", expectErr: true, err: authErr},
+		"Empty header":                      {input: http.Header{"Content-Type": {}}, want: "", expectErr: true, err: errAuth},
 		"Authorization header wrong format": {input: http.Header{"Authorization": {"SingleVal"}}, want: "", expectErr: true, err: errors.New("malformed authorization header")},
 		"Authorization header right format": {input: http.Header{"Authorization": {"ApiKey THEKEY"}}, want: "THEKEY", expectErr: false, err: errors.New("malformed authorization header")},
 	}
